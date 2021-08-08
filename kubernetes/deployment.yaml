@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spotifygenres-deployment
+  labels:
+    app.kubernetes.io/name: spotifygenres
+  namespace: spotifygenres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spotifygenres
+  template:
+      metadata:
+        labels:
+          app: spotifygenres
+      spec:
+        containers:
+          - name: spotifygenres
+            image: kieranbamforth/spotifygenres:1
+            ports:
+              - containerPort: 3000
+            env:
+              - name: NEXTAUTH_URL
+                value: "https://spotifygenres.k8s.istio.kieranbamforth.me"
+            envFrom:
+              - secretRef:
+                  name: spotifygenres-secret
+            resources:
+              limits:
+                cpu: "0.15"
+                memory: "60Mi"
+              requests:
+                cpu: "0.15"
+                memory: "60Mi"

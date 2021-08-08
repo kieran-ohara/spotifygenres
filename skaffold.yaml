@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta10
+kind: Config
+metadata:
+  name: spotifygenres
+build:
+  artifacts:
+  - image: kieranbamforth/spotifygenres
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - manifests/namespace.yaml
+    - manifests/deployment.yaml
+    - manifests/service.yaml
+    - manifests/ingress.yaml
